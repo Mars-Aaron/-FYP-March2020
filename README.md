@@ -38,20 +38,19 @@ The purpose of this project is to create a digital note-taking solution that is 
 </details>
 
 <details>
-  <summary>Firebase Authentication</summary>
+  <summary>Firebase</summary>
   
   ##### What?
-  It is a package manager for NodeJS which has access to over 350,000 third party packages. It can be access via the operating system's terminal (Terminal for MacOS and CMD for Windows) with the 'npm' command.
+  Firebase is Google's take on a Cloud platform for developers which also acts as a Backend-as-a-Service Provider that provides a platform for both Mobile and Web development projects.
   
   ##### Why?
-  NPM provides a huge list of open-sourced JavaScript libraries. A lot of the third party plugins required in the project such as Firebase integration module can be installed from NPM which simplifies the development process by a huge margin.
+  Developing a Mobile Application complete with a hosted backend can be a complex and potentially expensive process. As a Student, it is important to find a cost effective solution. Fortunately enough, is able to provide an entire backend service for the mobile application with no cost at all granted though it is limited in terms of vertical scalability.
   
+  ##### What I needed from Firebase
+  1. Firebase Authentication: Security and Privacy is a feature that is enabled in NotesLite. Implementing an authentication service that is secure can be quite difficult. Firebase is used here to simplify the process of both user registration and user authentication using email and password. On top of that, if there is a need to expand to social network integration with the application, Firebase also allows for social network authentication with minimal effort.
+  2. Firebase Cloud Firestore: Firebase also provides two very good options for storing application data which is the Firebase Realtime Database and the Cloud Firestore, both of which satisfies the requirements of the project's data structure. Compared to using SQL Server which was initially an option, Cloud Firestore is a more effort efficient option as it is able to handle concurrent reads and writes which is prevalent in the application as it has collaborative features. In SQL Server, solutions will need to be developed to handle concurrent transactions. By using Cloud Firestore, developer will only need to worry about the data structure.
+  3. Firebase Cloud Storage: User generated content such as profile pictures and document uploads needs to be stored somewhere as Cloud Firestore does not support blob data types. Firebase provides a service for that in the form of Cloud Storage which stores user generated content which will return a uri to be stored in firestore in place of the profile pictures and documents.
+
 </details>
 
-<details>
-  <summary>Firebase Cloud Firestore (Document-based Database)</summary>
-  <p>fdsf</p>
-</details>
-
-
-
+# Learning Outcome
