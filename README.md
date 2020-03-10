@@ -14,17 +14,38 @@ The purpose of this project is to create a digital note-taking solution that is 
 # Technonologies Used
 <details>
   <summary>React-Native Framework</summary>
-  <p>sdkfdsf</p>
+  
+  ##### What?
+  React-Native is a mobile application framework that is meant to unify the development process of user interfaces for both iOS, Android using solely JavaScript. It provides an engine that is capable of converting the components created in React-Native to the corresponding component in the native platform, for example a button created in React Native will render differently when installed on iOS and Android.
+  
+  ##### Why?
+  1. Interest (Cross-Compatibility): React-Native is a framework that introduced me to the concept of cross-compatible mobile application development. Hence, I was quick to try to understand more about it.
+  2. Component-based: React-Native is a component-based UI development framework, which means that components that I create are highly reusable.
+  3. Interest (JavaScript): The first encounter with JavaScript was during internship, which was very interesting to use and had the potential of creating full stack applications with the least amount of effort.
+  4. Metro: Metro is react-native package bundler which uses nodejs (a serverside javascript runtime environment). This automatically means that React-Native supports NodeJs and hence, have access to the huge list of repositories available on NPM. A lot of the third party plugins required can be installed from NPM which simplifies the development process by a huge margin.
+
 </details>
 
 <details>
-  <summary>Node Package Manager</summary>
-  <p>sdkfdsf</p>
+  <summary>Node Package Manager (NPM)</summary>
+  
+  ##### What?
+  It is a package manager for NodeJS which has access to over 350,000 third party packages. It can be access via the operating system's terminal (Terminal for MacOS and CMD for Windows) with the 'npm' command.
+  
+  ##### Why?
+  NPM provides a huge list of open-sourced JavaScript libraries. A lot of the third party plugins required in the project such as Firebase integration module can be installed from NPM which simplifies the development process by a huge margin.
+  
 </details>
 
 <details>
   <summary>Firebase Authentication</summary>
-  <p>sdkfdsf</p>
+  
+  ##### What?
+  It is a package manager for NodeJS which has access to over 350,000 third party packages. It can be access via the operating system's terminal (Terminal for MacOS and CMD for Windows) with the 'npm' command.
+  
+  ##### Why?
+  NPM provides a huge list of open-sourced JavaScript libraries. A lot of the third party plugins required in the project such as Firebase integration module can be installed from NPM which simplifies the development process by a huge margin.
+  
 </details>
 
 <details>
