@@ -54,3 +54,10 @@ The purpose of this project is to create a digital note-taking solution that is 
 </details>
 
 # Learning Outcome
+1. Increased Proficiency in JavaScript language and also the paradigm (Functional Programming).
+2. Established a moderate experience in the use of Firebase as a backend service.
+3. Further increase experience in the use of Object-Oriented concepts through the development of React-Native reusable components.
+4. Enhance UI/UX skills with many custom styled components as well as layouts.
+5. Understand the role of NodeJS in developing full stack applications.
+6. Gained experience in NoSQL databases.
+7. Improved time management skills.
