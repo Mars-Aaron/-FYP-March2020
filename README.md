@@ -11,7 +11,7 @@ The purpose of this project is to create a digital note-taking solution that is 
   * To ensure that the solution contains no distrations for the student by only providing tools that are useful for learning.
   * To implement methods of note-taking that mimic a pen-paper approach.
 
-# Technonologies Used
+# Technologies Used
 <details>
   <summary>React-Native Framework</summary>
   
