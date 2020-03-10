@@ -1,5 +1,6 @@
 # Notes Management System - NotesLite
 My FYP project featuring React-Native Framework along with Firebase integration.
+[Summary of what is learnt from the project] ()
 
 # Purpose of Project
 The purpose of this project is to create a digital note-taking solution that is specifically targeted at students to allow them to take notes in a very effective manner, as well as provide a platform for active learning.
