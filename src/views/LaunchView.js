@@ -2,7 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet, BackHandler} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import NetInfo from '@react-native-community/netinfo';
-import {StackActions, NavigationActions} from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
+import {hasUserLoggedIn} from '../models/NLFirebase';
 
 import Dialog from '../components/NLDialog';
 import AppLogo from '../components/AppLogoContainer';
@@ -10,7 +11,8 @@ import AppLogo from '../components/AppLogoContainer';
 const LaunchViewErrors = {
   NoInternetConnection: {
     title: 'No Internet Connection',
-    errorMessage: 'Please ensure that you are connected to a stable network to proceed.',
+    errorMessage:
+      'Please ensure that you are connected to a stable network to proceed.',
   },
 };
 
@@ -30,13 +32,15 @@ export default class LaunchView extends React.Component {
         if (state.isConnected && state.isInternetReachable) {
           // also check for session
           // this.props.navigation.navigate('Authentication');
-          const resetAction = StackActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({routeName: 'Authentication'}),
-            ],
+          hasUserLoggedIn().then(hasSession => {
+            if (hasSession) {
+              this.props.navigation.dispatch(StackActions.replace('Dashboard'));
+            } else {
+              this.props.navigation.dispatch(
+                StackActions.replace('Authentication'),
+              );
+            }
           });
-          this.props.navigation.dispatch(resetAction);
         } else {
           this.setState(
             {

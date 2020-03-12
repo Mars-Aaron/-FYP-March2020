@@ -1,14 +1,30 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import ViewTopics from '../views/topics/ViewTopicsView';
+import TopicsListView from '../views/topics/TopicsListView';
+import ViewProfile from '../views/profile/ViewProfile';
+import TopicStack from '../navigation/stacks/TopicStack';
+import StudentDrawer from '../components/StudentDrawer';
+import AppColors from '../config/Colors';
+
+import FA5 from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Drawer = createDrawerNavigator();
 
 const DashboardDrawerNavigation = () => {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="ViewTopics" component={ViewTopics} />
+    <Drawer.Navigator
+      drawerContent={props => {
+        return <StudentDrawer {...props} />;
+      }}>
+      <Drawer.Screen name="TopicStack" component={TopicStack} />
+      <Drawer.Screen
+        name="ViewProfile"
+        component={ViewProfile}
+        options={{
+          title: 'View Profile',
+        }}
+      />
     </Drawer.Navigator>
   );
 };

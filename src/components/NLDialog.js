@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   actionContainer: {
-    padding: 10,
+    padding: 20,
+    paddingHorizontal: 40,
     justifyContent: 'space-between',
   },
 });

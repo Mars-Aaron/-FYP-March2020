@@ -1,11 +1,17 @@
-import {EmailPasswordAuth, CreateEmailPassword} from '../models/NLFirebase';
+import {
+  EmailPasswordAuth,
+  CreateEmailPassword,
+  setLoggedInUser,
+} from '../models/NLFirebase';
 
 export const Login = (email, password, callback) => {
   EmailPasswordAuth(email, password)
     .then(credential => {
       if (credential) {
-        callback(true);
-        console.log('default app user ->', credential.user.toJSON());
+        setLoggedInUser(credential.user.uid).then(() => {
+          callback(true);
+          console.log('default app user ->', credential.user.toJSON());
+        });
       }
     })
     .catch(() => {

@@ -4,15 +4,15 @@ import {View, Text, Animated, StyleSheet} from 'react-native';
 import AppColors from '../config/Colors';
 
 const MAX_HEIGHT = 50;
-const MIN_HEIGHT = 0;
+const MIN_HEIGHT = 10;
 
 export default class NLCustomerActivityIndicator extends React.Component {
   state = {
-    node1Height: new Animated.Value(0),
-    node2Height: new Animated.Value(0),
-    node3Height: new Animated.Value(0),
-    node4Height: new Animated.Value(0),
-    node5Height: new Animated.Value(0),
+    node1Height: new Animated.Value(MIN_HEIGHT),
+    node2Height: new Animated.Value(MIN_HEIGHT),
+    node3Height: new Animated.Value(MIN_HEIGHT),
+    node4Height: new Animated.Value(MIN_HEIGHT),
+    node5Height: new Animated.Value(MIN_HEIGHT),
     running: true,
   };
 

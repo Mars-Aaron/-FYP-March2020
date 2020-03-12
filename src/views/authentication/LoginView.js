@@ -12,8 +12,7 @@ import NLPrimaryButton from '../../components/NLPrimaryButton';
 import NLSecondaryButton from '../../components/NLSecondaryButton';
 import AppLogoContainer from '../../components/AppLogoContainer';
 import NLTextField from '../../components/NLTextField';
-import NLActivityIndicator from '../../components/NLActivityIndicator';
-import CustomActivityIndicator from '../../components/NLCustomActivityIndicator';
+import ActivityIndicator from '../../components/NLActivityIndicator';
 import Dialog from '../../components/NLDialog';
 import AppColors from '../../config/Colors';
 
@@ -198,7 +197,7 @@ export default class LoginView extends React.Component {
               onPress={this._navigateToRegister}
             />
           </View>
-          {this.state.hasActivity && <CustomActivityIndicator />}
+          {this.state.hasActivity && <ActivityIndicator />}
           {this.state.showingDialog && (
             <Dialog
               title={this.state.dialogInfo.title}

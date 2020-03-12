@@ -12,7 +12,23 @@ export const setLoggedInUser = async uid => {
 };
 
 export const hasUserLoggedIn = async () => {
-  return await AsyncStorage.getItem(LOCAL_SESSION_KEY);
+  let uid = await AsyncStorage.getItem(LOCAL_SESSION_KEY);
+  console.log(uid);
+  return uid != null;
+};
+
+export const getUser = async () => {
+  let profile = null;
+  let querySnapshot = await Firebase.firestore()
+    .collection('profiles')
+    .get();
+  let uid = await AsyncStorage.getItem(LOCAL_SESSION_KEY);
+  querySnapshot.docs.forEach(doc => {
+    if (doc.id === uid) {
+      profile = doc;
+    }
+  });
+  return {user: Firebase.auth().currentUser, profile: profile};
 };
 
 export const CreateEmailPassword = (email, password) => {
