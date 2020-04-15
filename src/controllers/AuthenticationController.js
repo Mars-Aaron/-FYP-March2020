@@ -2,20 +2,34 @@ import {
   EmailPasswordAuth,
   CreateEmailPassword,
   setLoggedInUser,
-} from '../models/NLFirebase';
+  Logout as AuthLogout,
+} from '../models/NLAuthentication';
+
+export const LoginFailureReasons = {
+  EmailOrPasswordIncorrect: 'EPI',
+  EmailNotVerified: 'ENV',
+  AccountDeactivated: 'AD',
+};
+
+export const Logout = callback => {
+  AuthLogout(callback);
+};
 
 export const Login = (email, password, callback) => {
   EmailPasswordAuth(email, password)
     .then(credential => {
-      if (credential) {
+      if (credential && credential.user.emailVerified) {
         setLoggedInUser(credential.user.uid).then(() => {
-          callback(true);
-          console.log('default app user ->', credential.user.toJSON());
+          callback(true, null);
+        });
+      } else {
+        Logout(() => {
+          callback(false, LoginFailureReasons.EmailNotVerified);
         });
       }
     })
     .catch(() => {
-      callback(false);
+      callback(false, LoginFailureReasons.EmailOrPasswordIncorrect);
     });
 };
 

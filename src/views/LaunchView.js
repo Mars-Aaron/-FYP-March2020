@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, BackHandler} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import NetInfo from '@react-native-community/netinfo';
 import {StackActions} from '@react-navigation/native';
-import {hasUserLoggedIn} from '../models/NLFirebase';
+import {hasUserLoggedIn} from '../models/NLAuthentication';
 
 import Dialog from '../components/NLDialog';
 import AppLogo from '../components/AppLogoContainer';

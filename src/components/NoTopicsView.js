@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 
-import PrimaryButton from './NLPrimaryButton';
 import AppValues from '../config/Values';
 
 export default class NoTopicsView extends React.Component {
@@ -14,11 +13,11 @@ export default class NoTopicsView extends React.Component {
             source={AppValues.EMPTY_TOPICS_IMAGE}
           />
         </View>
-        <PrimaryButton
-          title="Create a Topic"
+        {/* <PrimaryButton
+          title="Add Your First Topic"
           containerStyle={styles.emptyListCreateButton}
           onPress={() => {}}
-        />
+        /> */}
       </View>
     );
   }

@@ -1,33 +1,20 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import AppColors from '../config/Colors';
-import AppStyles from '../config/Styles';
-import RippleSmallButton from '../components/NLRippleSmallButton';
-import PrimaryButton from '../components/NLPrimaryButton';
-import SecondaryButton from '../components/NLSecondaryButton';
+import SmallButton from '../components/NLSmallButton';
 
 export default class NLDialog extends React.Component {
   render() {
     const actions = this.props.actions.map(
       ({title, isPrimary, callback}, index) => {
-        return isPrimary ? (
-          <PrimaryButton
+        return (
+          <SmallButton
+            isPrimary={isPrimary}
             key={index}
             title={title}
             onPress={callback}
-            containerStyle={
-              index < this.props.actions.length - 1 ? styles.action : {}
-            }
-          />
-        ) : (
-          <SecondaryButton
-            key={index}
-            title={title}
-            onPress={callback}
-            containerStyle={
-              index < this.props.actions.length - 1 ? styles.action : {}
-            }
           />
         );
       },
@@ -43,6 +30,15 @@ export default class NLDialog extends React.Component {
             <Text style={styles.message}>{this.props.message}</Text>
           </View>
           <View style={styles.actionContainer}>{actions}</View>
+          <TouchableOpacity
+            style={styles.closeButtonContainer}
+            onPress={this.props.onClose}>
+            <MCIcon
+              name="window-close"
+              size={16}
+              color={AppColors.secondaryTextColor}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -67,32 +63,40 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.primaryColor,
     elevation: 20,
   },
+  closeButtonContainer: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    padding: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+    backgroundColor: AppColors.secondaryAccentColorDarker,
+  },
   titleContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
   },
   title: {
-    fontSize: 23,
+    fontSize: 16,
     fontWeight: 'bold',
     color: AppColors.secondaryTextColor,
   },
   messageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    paddingVertical: 30,
+    padding: 20,
   },
   message: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
-  },
-  action: {
-    marginBottom: 20,
   },
   actionContainer: {
     padding: 20,
-    paddingHorizontal: 40,
-    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });

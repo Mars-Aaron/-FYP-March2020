@@ -7,10 +7,15 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import {TouchableRipple} from 'react-native-paper';
+import ContentLoader from 'react-native-content-loader';
+import {Circle, Rect} from 'react-native-svg';
+import {navigate, replace} from '../navigation/RootNavigation';
 
 import AppColors from '../config/Colors';
-import {getUser} from '../models/NLFirebase';
+import CollectionFactory from '../models/NLCollectionFactory';
+import Profile from '../models/NLProfile';
+import {Logout} from '../controllers/AuthenticationController';
+import Dialog from '../components/NLDialog';
 
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 
@@ -18,14 +23,47 @@ export default class StudentDrawer extends React.Component {
   state = {
     fullName: '',
     username: '',
+    loadingData: true,
+    // showingDialog: false,
+    // dialogInfo: {title: '', message: '', actions: [], onClose: () => {}},
   };
 
+  _circleLoader = (
+    <View style={styles.loader}>
+      <ContentLoader
+        primaryColor="#d1d1d1"
+        secondaryColor="#ddd"
+        duration={1200}
+        width={'100%'}
+        height={'100%'}>
+        <Circle cx="75" cy="75" r="65" />
+      </ContentLoader>
+    </View>
+  );
+
+  _rectLoader = (
+    <View style={styles.loader}>
+      <ContentLoader
+        primaryColor="#d1d1d1"
+        secondaryColor="#ddd"
+        duration={1200}
+        width={'100%'}
+        height={'100%'}>
+        <Rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
+      </ContentLoader>
+    </View>
+  );
+
   _fetchUserData = async () => {
-    let user = await getUser();
-    this.setState({
-      fullName:
-        user.profile._data.GivenName + ' ' + user.profile._data.FamilyName,
-      username: user.profile._data.Username,
+    let profileReference = CollectionFactory.createProfileCollectionReference();
+    profileReference.GetProfile(data => {
+      this.setState({
+        loadingData: false,
+        fullName: `${data[Profile.Fields.GivenName]} ${
+          data[Profile.Fields.FamilyName]
+        }`,
+        username: data[Profile.Fields.Username],
+      });
     });
   };
 
@@ -33,8 +71,41 @@ export default class StudentDrawer extends React.Component {
     return this.props.state.routeNames[this.props.state.index];
   };
 
+  _onPressLogout = () => {
+    Logout(() => {
+      replace('Authentication');
+    });
+  };
+
+  // _getDialog = () => {
+  //   return <Dialog {...this.state.dialogInfo} />;
+  // };
+
+  // _showDialog = () => this.setState({showingDialog: true});
+
+  // _hideDialog = () => this.setState({showingDialog: false});
+
+  // _setLogoutDialog = () => {
+  //   this.state.dialogInfo.title = 'Logout';
+  //   this.state.dialogInfo.message = 'Are you sure?';
+  //   this.state.dialogInfo.actions = [
+  //     {
+  //       title: 'Yes',
+  //       isPrimary: true,
+  //       callback: this._onPressLogout,
+  //     },
+  //     {
+  //       title: 'Cancel',
+  //       callback: this._hideDialog,
+  //     },
+  //   ];
+  //   this.state.dialogInfo.onClose = this._hideDialog;
+  //   this._showDialog();
+  // };
+
   componentDidMount = () => {
     this._fetchUserData();
+    console.disableYellowBox = true;
   };
 
   render() {
@@ -47,14 +118,17 @@ export default class StudentDrawer extends React.Component {
               style={styles.profileImage}
               source={require('../../static/ProfilePicTemplate.png')}
             />
+            {this.state.loadingData && this._circleLoader}
           </View>
           <View style={styles.profileNameContainer}>
             <Text style={styles.profileNameText}>{this.state.fullName}</Text>
+            {this.state.loadingData && this._rectLoader}
           </View>
           <View style={styles.profileUsernameContainer}>
             <Text style={styles.profileUsernameText}>
               {this.state.username}
             </Text>
+            {this.state.loadingData && this._rectLoader}
           </View>
         </View>
         <TouchableOpacity
@@ -63,7 +137,7 @@ export default class StudentDrawer extends React.Component {
               ? styles.activeDrawerItem
               : styles.inactiveDrawerItem
           }
-          onPress={() => this.props.navigation.navigate('TopicStack')}>
+          onPress={() => navigate('TopicStack')}>
           <FAIcon
             style={
               this._getRouteName() === 'TopicStack'
@@ -71,7 +145,6 @@ export default class StudentDrawer extends React.Component {
                 : styles.inactiveDrawerItemIcon
             }
             name="book"
-            size={25}
             color={AppColors.secondaryTextColor}
           />
           <Text
@@ -89,7 +162,7 @@ export default class StudentDrawer extends React.Component {
               ? styles.activeDrawerItem
               : styles.inactiveDrawerItem
           }
-          onPress={() => this.props.navigation.navigate('ViewProfile')}>
+          onPress={() => navigate('ViewProfile')}>
           <FAIcon
             style={
               this._getRouteName() === 'ViewProfile'
@@ -97,7 +170,6 @@ export default class StudentDrawer extends React.Component {
                 : styles.inactiveDrawerItemIcon
             }
             name="user-circle"
-            size={25}
             color={AppColors.secondaryTextColor}
           />
           <Text
@@ -110,15 +182,14 @@ export default class StudentDrawer extends React.Component {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.logoutDrawerItem}
-          onPress={() => console.log('Logout')}>
+          style={styles.inactiveDrawerItem}
+          onPress={this._onPressLogout}>
           <FAIcon
-            style={styles.activeDrawerItemIcon}
+            style={styles.inactiveDrawerItemIcon}
             name="sign-out"
-            size={25}
             color={AppColors.secondaryTextColor}
           />
-          <Text style={styles.activeDrawerItemText}>Sign Out</Text>
+          <Text style={styles.inactiveDrawerItemText}>Logout</Text>
         </TouchableOpacity>
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>Version 1.0.0</Text>
@@ -149,12 +220,20 @@ const styles = StyleSheet.create({
     width: '50%',
     aspectRatio: 1,
   },
+  loader: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
   profileImage: {
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
   },
   profileNameContainer: {
+    width: '100%',
     marginTop: 10,
     padding: 5,
     paddingHorizontal: 10,
@@ -163,40 +242,37 @@ const styles = StyleSheet.create({
   profileNameText: {
     fontSize: 15,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   profileUsernameContainer: {
+    width: '100%',
     marginTop: 5,
-    padding: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    backgroundColor: AppColors.secondaryAccentColorDarker,
   },
   profileUsernameText: {
     fontSize: 12,
     fontWeight: 'bold',
+    textAlign: 'center',
+    borderRadius: 5,
+    padding: 5,
+    paddingHorizontal: 10,
+    alignSelf: 'center',
+    backgroundColor: AppColors.secondaryAccentColorDarker,
   },
   inactiveDrawerItem: {
     margin: 10,
     marginVertical: 5,
-    padding: 10,
+    padding: 15,
+    paddingVertical: 20,
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: AppColors.secondaryAccentColor,
   },
-  logoutDrawerItem: {
-    margin: 10,
-    marginVertical: 5,
-    padding: 10,
-    borderRadius: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#bd2d2d',
-  },
   activeDrawerItem: {
     margin: 10,
     marginVertical: 5,
-    padding: 10,
+    padding: 15,
+    paddingVertical: 20,
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
@@ -216,9 +292,11 @@ const styles = StyleSheet.create({
   },
   activeDrawerItemIcon: {
     color: AppColors.textColor,
+    fontSize: 20,
   },
   inactiveDrawerItemIcon: {
     color: AppColors.secondaryTextColor,
+    fontSize: 20,
   },
   versionContainer: {
     padding: 10,

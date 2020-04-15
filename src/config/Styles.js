@@ -11,12 +11,15 @@ const Values = {
     paddingVertical: 10,
     backgroundColor: AppColors.accentColor,
     borderRadius: 10,
+    marginLeft: 10,
+    elevation: 10,
   },
   secondarySmallButton: {
-    padding: 10,
-    paddingVertical: 5,
+    padding: 20,
+    paddingVertical: 10,
     backgroundColor: AppColors.secondaryAccentColor,
     borderRadius: 10,
+    marginLeft: 10,
   },
   borderlessSmallButton: {
     padding: 20,
@@ -30,6 +33,9 @@ const Values = {
     fontWeight: 'bold',
     color: AppColors.secondaryTextColor,
     textAlign: 'center',
+  },
+  drawerStyle: {
+    width: '80%',
   },
 };
 

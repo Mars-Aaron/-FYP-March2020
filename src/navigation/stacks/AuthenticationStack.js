@@ -6,16 +6,15 @@ import RegisterView from '../../views/authentication/RegisterView';
 
 import AppColors from '../../config/Colors';
 
-import DashboardDrawerNavigation from '../DashboardDrawerNavigation';
-
 const Stack = createStackNavigator();
 
 const AuthenticationStack = () => {
+  const LoginReference = props => <LoginView {...props} />;
   return (
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
-        component={LoginView}
+        component={LoginReference}
         options={{
           title: 'Log In',
           headerShown: false,
@@ -35,7 +34,7 @@ const AuthenticationStack = () => {
         name="Register"
         component={RegisterView}
         options={{
-          title: 'Register',
+          title: '',
           headerStyle: {
             elevation: 0,
             backgroundColor: AppColors.primaryColor,

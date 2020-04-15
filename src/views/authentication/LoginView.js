@@ -6,7 +6,11 @@ import {
   Keyboard,
 } from 'react-native';
 
-import {Login} from '../../controllers/AuthenticationController';
+import {
+  Login,
+  LoginFailureReasons,
+} from '../../controllers/AuthenticationController';
+import {replace, push} from '../../navigation/RootNavigation';
 
 import NLPrimaryButton from '../../components/NLPrimaryButton';
 import NLSecondaryButton from '../../components/NLSecondaryButton';
@@ -30,24 +34,36 @@ const LoginViewModelErrors = {
     title: 'User Not Found Error',
     errorMessage: 'The email or password you entered is incorrect.',
   },
+  AccountNotVerifiedError: {
+    title: 'Account Not Verified Error',
+    errorMessage: 'The account has not been verified.',
+  },
+  AccountDeactivatedError: {
+    title: 'Account Deactivated Error',
+    errorMessage:
+      'The account is currently deactivated, contact an admin to re-activate it.',
+  },
 };
 
 export default class LoginView extends React.Component {
-  state = {
-    email: '',
-    password: '',
-    emailModelState: true,
-    passwordModelState: true,
-    modelState: false,
-    modelStateError: LoginViewModelErrors.EmptyFieldError,
-    hasActivity: false,
-    showingDialog: false,
-    dialogInfo: {
-      title: '',
-      message: '',
-      actions: [],
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      emailModelState: true,
+      passwordModelState: true,
+      modelState: false,
+      modelStateError: LoginViewModelErrors.EmptyFieldError,
+      hasActivity: false,
+      showingDialog: false,
+      dialogInfo: {
+        title: '',
+        message: '',
+        actions: [],
+      },
+    };
+  }
 
   _dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -91,14 +107,19 @@ export default class LoginView extends React.Component {
       this._showDialog();
     } else {
       this.setState({hasActivity: true}, () => {
-        Login(this.state.email, this.state.password, isSuccess => {
+        Login(this.state.email, this.state.password, (isSuccess, reason) => {
           this.setState({hasActivity: false}, () => {
             if (isSuccess) {
-              this.props.navigation.navigate('Dashboard');
+              replace('Dashboard');
             } else {
               this.setState(
                 {
-                  modelStateError: LoginViewModelErrors.UserNotFoundError,
+                  modelStateError:
+                    reason === LoginFailureReasons.EmailOrPasswordIncorrect
+                      ? LoginViewModelErrors.UserNotFoundError
+                      : reason === LoginFailureReasons.AccountDeactivated
+                      ? LoginViewModelErrors.AccountDeactivatedError
+                      : LoginViewModelErrors.AccountNotVerifiedError,
                 },
                 () => this._showDialog(),
               );
@@ -138,6 +159,7 @@ export default class LoginView extends React.Component {
   };
 
   _onChangeEmail = (email, isValidInput) => {
+    console.log(`Latest: ${email}`);
     this.setState({emailModelState: isValidInput, email: email}, () => {
       this.validateViewModel();
     });
@@ -153,6 +175,7 @@ export default class LoginView extends React.Component {
   };
 
   _getEmail = () => {
+    console.log(`Email: ${this.state.email}`);
     return this.state.email;
   };
 
@@ -160,9 +183,7 @@ export default class LoginView extends React.Component {
     return this.state.password;
   };
 
-  _navigateToRegister = () => {
-    this.props.navigation.navigate('Register');
-  };
+  _navigateToRegister = () => push('Register');
 
   render() {
     return (
@@ -203,6 +224,9 @@ export default class LoginView extends React.Component {
               title={this.state.dialogInfo.title}
               message={this.state.dialogInfo.message}
               actions={this.state.dialogInfo.actions}
+              onClose={() => {
+                this.setState({showingDialog: false});
+              }}
             />
           )}
         </View>

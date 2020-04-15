@@ -21,7 +21,8 @@ export default class NLTextField extends React.Component {
   emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[_@-])[0-9a-zA-Z_@-]{8,}$/;
   nameRegEx = /^[a-zA-Z ]+$/;
-  usernameRegEx = /^@[a-zA-Z0-9_]+$/;
+  usernameRegEx = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
+  topicNameRegEx = /^[a-zA-Z0-9 _[\]()\-.\\|@#&{}<>:=+]+$/;
 
   validateInput = text => {
     switch (this.props.type) {
@@ -32,10 +33,16 @@ export default class NLTextField extends React.Component {
       case 'name':
         return this.nameRegEx.test(text);
       case 'username':
-        return this.nameRegEx.test(text);
+        return this.usernameRegEx.test(text);
+      case 'topic':
+        return this.topicNameRegEx.test(text);
       default:
         return true;
     }
+  };
+
+  _makeInvalid = () => {
+    this.setState({inputValid: false});
   };
 
   _onFocus = () => {
@@ -59,6 +66,7 @@ export default class NLTextField extends React.Component {
   };
 
   render() {
+    // console.log(this.props._getValue());
     return (
       <View style={this.props.containerStyle}>
         {this.state.hasFocus ? (
