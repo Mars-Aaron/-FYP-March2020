@@ -66,3 +66,9 @@ The purpose of this project is to create a digital note-taking solution that is 
 # Screenshots
 
 ![login.png](https://firebasestorage.googleapis.com/v0/b/noteslite-40854.appspot.com/o/Login.png?alt=media&token=246626f0-0bb4-4985-a287-cf76ed1fcd92 "Login View")
+
+![register.png](https://firebasestorage.googleapis.com/v0/b/noteslite-40854.appspot.com/o/Register.png?alt=media&token=c6e46908-1edd-412a-ad4f-348cb1bc9cca "Register View")
+
+![topics.png](https://firebasestorage.googleapis.com/v0/b/noteslite-40854.appspot.com/o/Topics.png?alt=media&token=6aa0b24c-ab19-4410-b92c-24d30a4ac223 "Topics List View")
+
+![add_topics.png](https://firebasestorage.googleapis.com/v0/b/noteslite-40854.appspot.com/o/Add%20Topics.png?alt=media&token=3a5d0391-fc80-468a-a825-76c9b719252b "Add Topic View")
