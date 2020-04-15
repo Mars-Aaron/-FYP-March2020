@@ -62,3 +62,7 @@ The purpose of this project is to create a digital note-taking solution that is 
 5. Understand the role of NodeJS in developing full stack applications.
 6. Gained experience in NoSQL databases.
 7. Improved time management skills.
+
+# Screenshots
+
+![login.png](https://firebasestorage.googleapis.com/v0/b/noteslite-40854.appspot.com/o/Login.png?alt=media&token=246626f0-0bb4-4985-a287-cf76ed1fcd92 "Login View")
